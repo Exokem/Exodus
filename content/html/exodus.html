@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="vh100">
+    <head>
+        <title>Exodus</title>
+        <link rel="stylesheet" type="text/css" href="css/overrides.css">
+        <!-- Prefix the path with relative heading to work locally: css -> ../css -->
+        <link rel="stylesheet" type="text/css" href="css/fonts.css">
+        <link rel="stylesheet" type="text/css" href="css/colors.css">
+        <link rel="stylesheet" type="text/css" href="css/spacing.css">
+        <link rel="stylesheet" type="text/css" href="css/panels.css">
+        <script src="../js/task.js" async></script>
+        <script src="../js/isolate.js" async></script>
+
+        
+    </head>
+    <body class="h100 mh100">
+        
+        <div class="vt-container">
+
+            <div class="segment-phase rui1 bui2"></div>
+            <div class="segment-phase rui1 bui2"></div>
+            
+
+            <div class="hz-container">
+
+                <div class="scrollable margin-panel rui0">
+                    <div class="grid m5 g5" id="task-view">
+                    </div>
+                    
+                </div>
+
+                <div class="scrollable content-panel rui1 p20">
+                    <div class="grid g20">
+                        <h1 class="hover-label">Home</h1>
+
+                        <div class="grid rui0 p20 g20">
+                            <h4>Tasks</h4>
+                            
+                            <div class="bicol grid g20">
+                                <div class="grid g5">
+                                    <div class="hoverable grid rui1 p5 g5">
+                                        <p class="lhov">New Task Information</p>
+                                    </div>
+                                    
+                                    <div class="hoverable grid rui1 p5 g5">
+                                        <p class="lhov">Title</p>
+                                        <input name="title" id="ntask-title">
+                                    </div>
+        
+                                    <div class="hoverable grid rui1 p5 g5">
+                                        <p class="lhov">Description</p>
+                                        <textarea rows="3" name="description" id="ntask-description"></textarea>
+                                    </div>
+
+                                    <div class="hoverable grid rui1 p5 g5">
+                                        <p class="lhov">Category</p>
+                                        <select name="category" id="ntask-category">
+
+                                        </select>
+                                    </div>
+
+                                    <input type="button" class="hoverable button rui1 lhov p5" value="Assign Task" id="action-ntask-assign">
+                                </div>
+
+                                <div class="hoverable title-grid grid rui1 ">
+                                    <div class="grid p5">
+                                        <p class="lhov">New Task Components</p>
+                                    </div>
+
+                                    <div class="grid p5">
+                                        <div class="grid rui0 p5 g5">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+                    
+
+                </div>
+
+                <div class="margin-panel rui0"></div>
+            </div>
+            
+        </div>
+
+        
+    </body>
+</html>

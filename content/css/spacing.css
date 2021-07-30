@@ -1,0 +1,20 @@
+
+.p5 { padding: 5px; }
+.p20 { padding: 20px; }
+
+.g5 { gap: 5px; }
+.g20 { gap: 20px; }
+
+.m5 { margin: 5px; }
+.m20 { margin: 20px; }
+
+.h10 { height: 10vh; }
+.h20 { height: 20vh; }
+.h50 { height: 50vh; }
+.h100 { height: 100%; }
+
+.vh100 { height: 100vh; }
+
+.mh100 { max-height: 100%; }
+
+.mhin { max-height: inherit; }

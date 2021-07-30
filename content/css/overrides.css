@@ -1,0 +1,37 @@
+input, textarea, select {
+    border: none;
+    border-radius: 0;
+    border-color: var(--ui-2);
+    padding: 5px;
+
+    background-color: var(--ui-0);
+    color: var(--text-0);
+
+    resize: none;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--ui-2-hov);
+    border-radius: 0;
+    border: none;
+}
+
+.hoverable:hover ::-webkit-scrollbar-thumb  {
+    background: var(--ui-3);
+}
+
+.button {
+    background: var(--ui-1);
+}

@@ -1,0 +1,40 @@
+:root {
+    --accent-1: #ff6188;
+    --cn-0: #0F0F0F;
+    --ui-0: #221f22;
+    --ui-1: #2d2a2e;
+    --ui-1-hov: #3c383d;
+    --ui-2: #363337;
+    --ui-2-hov: #413D42;
+    --ui-3: #5b595c;
+    --text-0: #dcdcdc;
+}
+
+::selection, ::-moz-selection {
+    background: var(--accent-1);
+}
+
+.hoverable { transition: 600ms; }
+.hoverable:hover { transition: 600ms; }
+
+.a1 { color: var(--accent-1); }
+
+.rui0 { background: var(--ui-0); }
+.rui1 { background: var(--ui-1); }
+.rui2 { background: var(--ui-2); }
+.rui3 { background: var(--ui-3); }
+
+.rui0.hoverable:hover { background: var(--ui-0); }
+.rui1.hoverable:hover  { background: var(--ui-1-hov); }
+.rui2.hoverable:hover { background: var(--ui-2-hov); }
+.rui3.hoverable:hover { background: var(--ui-3); }
+
+.bui0, .bui1, .bui2, .bui3 {
+    border-width: 1px;
+    border-style: solid;
+}
+
+.bui0 { border-color: var(--ui-0); }
+.bui1 { border-color: var(--ui-1); }
+.bui2 { border-color: var(--ui-2); }
+.bui3 { border-color: var(--ui-3); }

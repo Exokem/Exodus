@@ -1,0 +1,50 @@
+
+body, html {
+    margin: 0;
+    /* width: 100%;
+    height: 100%; */
+}
+
+.vt-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.hz-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    max-height: calc(100vh - 3.0rem - 2px);
+    flex-grow: 1;
+}
+
+.margin-panel {
+    max-width: 20%;
+    flex-grow: 1;
+}
+
+.grid {
+    display: grid;
+}
+
+.bicol { grid-template-columns: auto auto; }
+
+.title-grid { grid-template-rows: 1.5rem auto;}
+
+.content-panel {
+    max-width: 60%;
+    flex-grow: 1;
+}
+
+.label-height { max-height: 1.5rem; }
+
+.segment-phase {
+    min-height: 1.5rem;
+    height: 1.5rem;
+    border-width: 0 0 1px 0;
+}
+
+.scrollable {
+    overflow-y: auto;
+}
