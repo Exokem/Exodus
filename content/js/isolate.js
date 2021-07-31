@@ -14,6 +14,7 @@ assignButton.addEventListener('click', function(event)
         // Task based on input
         // TODO: write to file
         var task = new Task(title, description)
+        task.exportJson()
 
         // Horizontal bar with title, selection, and options
         var generic = document.createElement('div')
@@ -38,6 +39,7 @@ assignButton.addEventListener('click', function(event)
         // Task description
         var description = document.createElement('textarea')
         description.rows = 2
+        description.readOnly = `readonly`
         // description.classList.add('js-task-view-desc')
         description.innerHTML = descr
 

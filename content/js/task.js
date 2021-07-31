@@ -1,34 +1,37 @@
 
-// const fs = require('fs')
 
 const TASK_DIR = '../data/task/'
 
+class Category 
+{
+    title
+    description
+}
+
 class Task 
 {
-    static NEXT_INDEX = 0;
+    static NEXT_INDEX = 0
 
-    title;
-    description;
-    identifier;
+    title
+    description
+    identifier
+    category
 
     constructor(title, description)
     {
-        this.title = title;
-        this.description = description;
-        this.identifier = Task.NEXT_INDEX ++;
-    }
-
-    exportPath()
-    {
-        return `task-${this.identifier}-${this.title}.extsk`
+        this.identifier = Task.NEXT_INDEX ++
+        this.title = title
+        this.description = description
     }
 
     exportJson()
     {
-        return {
+        var jsonData = {
             "identifier": this.identifier,
             "title": this.title,
             "description": this.description
         }
+
+        tsExport(jsonData)
     }
 }
