@@ -11,9 +11,19 @@ assignButton.addEventListener('click', function(event)
 
     if (title != '') 
     {
+        // Task based on input
+        // TODO: write to file
         var task = new Task(title, description)
 
-        var taskDisplay = document.createElement('div')
+        // Horizontal bar with title, selection, and options
+        var generic = document.createElement('div')
+        generic.classList.add('grid', 'label-height', 'task-generic', 'g5')
+        generic.style.position = 'relative'
+        
+        // Task completion button
+        var completed_button = new ImageButton('selection', 'selection_hovered')
+            .withSelection('selection_selected', 'selection_selected_hovered')
+        var completed = completed_button.container
 
         // Task label
         var label = document.createElement('p')
@@ -23,27 +33,36 @@ assignButton.addEventListener('click', function(event)
         // Task description
         var description = document.createElement('textarea')
         description.rows = 2
+        // description.classList.add('js-task-view-desc')
         description.innerHTML = descr
 
         // Task hide button
-        var hide = imageButton('close_task', 'close_task_hovered', null, action = () =>
-        {
-            description.style.height = 0
-        })
-        hide.style['grid-column'] = 2
+        var hide_button = new ImageButton('close_task', 'close_task_hovered')
+        var hide = hide_button.container
 
-        // Horizontal bar with title, selection, and options
-        var generic = document.createElement('div')
-        generic.classList.add('grid', 'label-height', 'g5')
-        generic.style.position = 'relative'
+        // Task information expand button
+        var expand_button = new ImageButton('expand', 'expand_hovered')
+            .withSelection('expand_selected', 'expand_selected_hovered')
+            .withAction((selected) => 
+            {
+                // var dcheck = wrapper.getElementsByClassName('js-task-view-desc')
+
+                
+
+                // if (selected) generic.appendChild(description)
+                // else generic.removeChild(description)
+            })
+        var expand = expand_button.container
+
+        generic.appendChild(completed)
         generic.appendChild(label)
+        generic.appendChild(expand)
         generic.appendChild(hide)
 
         // Task display wrapper
         var wrapper = document.createElement('div')
         wrapper.classList.add('hoverable', 'grid', 'rui1', 'p5', 'g5')
         wrapper.appendChild(generic)
-        wrapper.appendChild(description)
 
         var CONTAINER = document.getElementById('task-view')
         CONTAINER.appendChild(wrapper)

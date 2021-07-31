@@ -24,9 +24,8 @@ body, html {
     flex-grow: 1;
 }
 
-.grid {
-    display: grid;
-}
+.grid { display: grid; }
+.flex { display: flex; }
 
 .bicol { grid-template-columns: auto auto; }
 
