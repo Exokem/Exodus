@@ -11,6 +11,7 @@ exodus.use(express.static('content'))
 exodus.use('/css', express.static(__dirname + 'content/css'))
 exodus.use('/html', express.static(__dirname + 'content/html'))
 exodus.use('/js', express.static(__dirname + 'content/js'))
+exodus.use('/icon', express.static(__dirname + 'content/icon'))
 
 exodus.get('', (req, res) =>
 {
