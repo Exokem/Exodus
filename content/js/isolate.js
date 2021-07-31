@@ -20,6 +20,11 @@ assignButton.addEventListener('click', function(event)
         generic.classList.add('grid', 'label-height', 'task-generic', 'g5')
         generic.style.position = 'relative'
         
+        // Task display wrapper
+        var wrapper = document.createElement('div')
+        wrapper.classList.add('hoverable', 'animated', 'grid', 'rui1', 'p5', 'g5')
+        wrapper.appendChild(generic)
+
         // Task completion button
         var completed_button = new ImageButton('selection', 'selection_hovered')
             .withSelection('selection_selected', 'selection_selected_hovered')
@@ -45,12 +50,8 @@ assignButton.addEventListener('click', function(event)
             .withSelection('expand_selected', 'expand_selected_hovered')
             .withAction((selected) => 
             {
-                // var dcheck = wrapper.getElementsByClassName('js-task-view-desc')
-
-                
-
-                // if (selected) generic.appendChild(description)
-                // else generic.removeChild(description)
+                if (wrapper.contains(description)) wrapper.removeChild(description)
+                else if (selected) wrapper.appendChild(description)
             })
         var expand = expand_button.container
 
@@ -59,10 +60,7 @@ assignButton.addEventListener('click', function(event)
         generic.appendChild(expand)
         generic.appendChild(hide)
 
-        // Task display wrapper
-        var wrapper = document.createElement('div')
-        wrapper.classList.add('hoverable', 'grid', 'rui1', 'p5', 'g5')
-        wrapper.appendChild(generic)
+        
 
         var CONTAINER = document.getElementById('task-view')
         CONTAINER.appendChild(wrapper)

@@ -1,3 +1,6 @@
+
+.animated { transition: height 600ms; }
+
 .image-button {
     display: flex;
     flex: 1;
