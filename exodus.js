@@ -46,8 +46,8 @@ function writeJson(json)
     var path = `${JSON_OUT}task-${json.identifier}-${json.title}.vxtk`
     console.log(`Writing task data to '${path}'`)
     
-    fs.writeFile(path, JSON.stringify(json), (err) =>
-    {
+    // fs.writeFile(path, JSON.stringify(json), (err) =>
+    // {
 
-    })
+    // })
 }

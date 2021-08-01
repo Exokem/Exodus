@@ -82,6 +82,11 @@ class ImageButton
         return this
     }
 
+    end()
+    {
+        return this.container
+    }
+
     switchSelect()
     {
         if (this && this.allow_select)
