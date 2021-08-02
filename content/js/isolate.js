@@ -8,20 +8,40 @@ const TASK_CDATA = {
 
 const SELECTED_CLASS = `comp-selected`
 
+function select(component)
+{
+    if (TASK_CDATA.selected != null)
+    {
+        TASK_CDATA.selected.container.classList.remove(SELECTED_CLASS)
+    }
+
+    if (component == null) return
+
+    component.container.classList.add(SELECTED_CLASS)
+    TASK_CDATA.selected = component
+}
+
+function removeSelected()
+{
+    if (TASK_CDATA.selected != null)
+    {
+        TASK_CDATA.components = TASK_CDATA.components.filter((value, index, array) =>
+            {
+                return value != TASK_CDATA.selected
+            })
+
+        compHolder.removeChild(TASK_CDATA.selected.container)
+        select(TASK_CDATA.components.length != 0 ? TASK_CDATA.components[0] : null)
+    }
+}
+
 // Component setup
 
 const compHolder = document.getElementById(`component-view`)
 const compGeneric = document.getElementById(`component-title`)
 
 const remove = new ImageButton('subtract', 'subtract_hovered')
-    .withAction(selected =>
-        {
-            if (TASK_CDATA.selected != null)
-            {
-                TASK_CDATA.components.remove(TASK_CDATA.selected)
-                TASK_CDATA.selected = null
-            }
-        })
+    .withAction(selected => removeSelected())
     .end()
 const add = new ImageButton(`add`, `add_hovered`)
     .withAction(selected => 
@@ -30,17 +50,7 @@ const add = new ImageButton(`add`, `add_hovered`)
             TASK_CDATA.components.push(cdisp)
             
             var wrapper = cdisp.container
-            wrapper.addEventListener(`click`, event =>
-            {
-                if (TASK_CDATA.selected != null)
-                {
-                    TASK_CDATA.selected.container.classList.remove(SELECTED_CLASS)
-                }
-
-                wrapper.classList.add(SELECTED_CLASS)
-                TASK_CDATA.selected = cdisp
-            })
-
+            wrapper.addEventListener(`click`, event => select(cdisp))
             compHolder.appendChild(wrapper)
         })
     .end()
