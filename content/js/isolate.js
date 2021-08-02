@@ -1,4 +1,55 @@
 
+// Data
+
+const TASK_CDATA = {
+    components: [],
+    selected: null
+}
+
+const SELECTED_CLASS = `comp-selected`
+
+// Component setup
+
+const compHolder = document.getElementById(`component-view`)
+const compGeneric = document.getElementById(`component-title`)
+
+const remove = new ImageButton('subtract', 'subtract_hovered')
+    .withAction(selected =>
+        {
+            if (TASK_CDATA.selected != null)
+            {
+                TASK_CDATA.components.remove(TASK_CDATA.selected)
+                TASK_CDATA.selected = null
+            }
+        })
+    .end()
+const add = new ImageButton(`add`, `add_hovered`)
+    .withAction(selected => 
+        {
+            var cdisp = TaskTemplate.next()
+            TASK_CDATA.components.push(cdisp)
+            
+            var wrapper = cdisp.container
+            wrapper.addEventListener(`click`, event =>
+            {
+                if (TASK_CDATA.selected != null)
+                {
+                    TASK_CDATA.selected.container.classList.remove(SELECTED_CLASS)
+                }
+
+                wrapper.classList.add(SELECTED_CLASS)
+                TASK_CDATA.selected = cdisp
+            })
+
+            compHolder.appendChild(wrapper)
+        })
+    .end()
+
+compGeneric.appendChild(remove)
+compGeneric.appendChild(add)
+
+// Assignment logic
+
 var assignButton = document.getElementById('action-ntask-assign')
 
 var taskSections = 0
@@ -21,39 +72,3 @@ assignButton.addEventListener('click', function(event)
     }
 })
 
-function imageButton(base, hovered, disabled = null, action = null)
-{
-    var container = document.createElement('div')
-    container.classList.add('image-button')
-    
-    if (disabled != null)
-    {
-        var disImg = document.createElement('img')
-        disImg.src = iconSrc(disabled)
-        container.appendChild(disImg)
-    }
-
-    var baseImg = document.createElement('img')
-    baseImg.src = iconSrc(base)
-    container.appendChild(baseImg)
-    
-    var hovImg = document.createElement('img')
-    hovImg.classList.add('ib-hov')
-    hovImg.src = iconSrc(hovered)
-    container.appendChild(hovImg)
-
-    if (action != null)
-    {
-        hovImg.addEventListener('click', (event) =>
-        {
-            action()
-        })
-    }
-
-    return container
-}
-
-function iconSrc(icon)
-{
-    return `icon/${icon}.png`
-}

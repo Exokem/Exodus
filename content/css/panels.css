@@ -47,3 +47,8 @@ body, html {
 .scrollable {
     overflow-y: auto;
 }
+
+.comp-selected {
+    border: 1px solid var(--accent-1);
+    box-sizing: border-box;
+}

@@ -96,3 +96,39 @@ class Task
         tsExport(jsonData)
     }
 }
+
+class TaskTemplate 
+{
+    static next()
+    {
+        var next = new TaskTemplate()
+
+        next._ltitle = Architect.start(`p`)
+            .withClasses(`lhov`)
+            .withHTML(`Component Title`)
+            .end()
+        next._ldescription = Architect.start(`p`)
+            .withClasses(`lhov`)
+            .withHTML(`Component Description`)
+            .end()
+
+        next.title = document.createElement(`input`)
+        next.description = document.createElement(`textarea`)
+        next.description.rows = 2
+
+        next.container = Architect.div()
+            .withClasses(`hoverable grid rui1 p5 g5`)
+            .withChildren(next._ltitle, next.title, next._ldescription, next.description)
+            .end()
+
+        return next
+    }
+
+    container
+
+    _ltitle
+    _ldescription
+
+    title
+    description
+}
