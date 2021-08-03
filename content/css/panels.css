@@ -52,3 +52,8 @@ body, html {
     border: 1px solid var(--accent-1);
     box-sizing: border-box;
 }
+
+.comp-unselected {
+    border: 1px solid transparent;
+    box-sizing: border-box;
+}

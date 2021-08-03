@@ -7,18 +7,22 @@ const TASK_CDATA = {
 }
 
 const SELECTED_CLASS = `comp-selected`
+const UNSELECTED_CLASS = `comp-unselected`
 
 function select(component)
 {
     if (TASK_CDATA.selected != null)
     {
         TASK_CDATA.selected.container.classList.remove(SELECTED_CLASS)
+        TASK_CDATA.selected.container.classList.add(UNSELECTED_CLASS)
     }
+
+    TASK_CDATA.selected = component
 
     if (component == null) return
 
+    component.container.classList.remove(UNSELECTED_CLASS)
     component.container.classList.add(SELECTED_CLASS)
-    TASK_CDATA.selected = component
 }
 
 function removeSelected()
@@ -31,7 +35,7 @@ function removeSelected()
             })
 
         compHolder.removeChild(TASK_CDATA.selected.container)
-        select(TASK_CDATA.components.length != 0 ? TASK_CDATA.components[0] : null)
+        select(TASK_CDATA.components.length != 0 ? TASK_CDATA.components[TASK_CDATA.components.length - 1] : null)
     }
 }
 
@@ -51,7 +55,17 @@ const add = new ImageButton(`add`, `add_hovered`)
             
             var wrapper = cdisp.container
             wrapper.addEventListener(`click`, event => select(cdisp))
-            compHolder.appendChild(wrapper)
+
+            wrapper.style[`max-height`] = `134.613px`
+
+            while (compHolder.firstChild) compHolder.removeChild(compHolder.firstChild)
+
+            for (var ix = TASK_CDATA.components.length - 1; 0 <= ix; ix --)
+            {
+                compHolder.appendChild(TASK_CDATA.components[ix].container)
+            }
+
+            select(cdisp)
         })
     .end()
 

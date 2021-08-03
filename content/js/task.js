@@ -117,7 +117,7 @@ class TaskTemplate
         next.description.rows = 2
 
         next.container = Architect.div()
-            .withClasses(`hoverable grid rui1 p5 g5`)
+            .withClasses(`hoverable grid rui1 p5 g5 posrel`)
             .withChildren(next._ltitle, next.title, next._ldescription, next.description)
             .end()
 
