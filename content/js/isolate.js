@@ -86,9 +86,16 @@ assignButton.addEventListener('click', function(event)
 
     if (title != '') 
     {
-        // Task based on input
-        // TODO: write to file
         var task = new Task(title, description)
+
+        while(0 < TASK_CDATA.components.length)
+        {
+            var comp = TASK_CDATA.components.pop()
+            compHolder.removeChild(comp.container)
+
+            if (comp.title.value.length != 0) task.addComponent(comp.asTask())
+        }
+
         task.exportJson()
 
         var CONTAINER = document.getElementById('task-view')

@@ -60,42 +60,55 @@ async function refreshIndices()
     {
         if (err) { console.log(err); return }
 
-        
+        var receivers = 0
 
         files.forEach(file => 
         {
             if (!index.files.includes(file))
             {
                 index.files.push(file)
+                receivers ++
             
                 exodus.get('/' + file, (request, response) =>
                 {
-                    console.log(`Received request emission for '${file}'`)
-
                     fs.readFile(__dirname + JSON_OUT + file, (err, content) =>
                     {
                         var data = JSON.parse(content)
-                        
-                        console.log(`Returning json data '${data} for '${file}''`)
+
                         response.json(data)
                     })
                 })
-
-                console.log(`Established receiver for '${file}'`)
             }
         }) 
+
+        console.log(`Established receivers for ${receivers} file(s)`)
     })
 }
 
 const WJSON_OUT = `data/task/`
 
+async function transformTitle(title)
+{
+    return title.replace(' ', '_')
+}
+
 async function writeJson(json)
 {
-    var path = `${WJSON_OUT}${json.title}-${json.identifier}.vxtk`
+    var path = `${WJSON_OUT}${transformTitle(json.title)}-${json.identifier}.vxtk`
     console.log(`Writing task data to '${path}'`)
     
     fs.writeFile(path, JSON.stringify(json), (err) =>
-    {
+        {
+            console.log(`Failed to write data to '${path}': ${err}`)
+        })
+}
 
-    })
+async function eraseJson(json)
+{
+    var path = `${WJSON_OUT}${transformTitle(json.title)}-${json.identifier}.vxtk`
+
+    fs.unlink(path, err =>
+        {
+            console.log(`Failed to erase data at '${path}': ${err}`)
+        })
 }

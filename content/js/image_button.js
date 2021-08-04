@@ -48,7 +48,7 @@ class ImageButton
         this.container.style['max-width'] = this.img_base.style['width']
 
         this.allow_select = this.allow_disable = false
-        this.selected = this.disable = false
+        this.selected = this.disabled = false
     }
 
     withSelection(name_selected, name_selected_hovered)
@@ -98,11 +98,11 @@ class ImageButton
         }
     }
 
-    switchDisable()
+    switchDisable(value = !this.disabled)
     {
         if (this && this.allow_disable)
         {
-            this.disabled = !this.disabled
+            this.disabled = value
 
             this.img_disabled.style.display = this.disabled ? 'none' : 'auto';
         }

@@ -2,24 +2,47 @@
 
 const TASK_DIR = '../data/task/'
 
+function checkedRemove(container, element)
+{
+    if (container.contains(element)) container.removeChild(element)
+}
+
 class Category 
 {
+    constructor(title, description)
+    {
+        this.title = title
+        this.description = description
+    }
+
     title
     description
 }
+
+const ROOT_CATEGORY = new Category(`Root Category`, `Uncategorized tasks`)
 
 class Task 
 {
     static importJson(json)
     {
-        return new Task(json.title, json.description)
+        var task = new Task(json.title, json.description)
+
+        json.components.forEach(component => task.addComponent(Task.importJson(component)))
+
+        return task
     }
 
-    constructor(title, description)
+    constructor(title, description, category = ROOT_CATEGORY)
     {
         this.identifier = Task.NEXT_INDEX ++
         this.title = title
         this.description = description
+        this.category = category
+        this.tasks = []
+
+        this.componentHolder = Architect.div()
+            .withClasses(`grid rui0 p5 g5`)
+            .end()
     }
 
     static NEXT_INDEX = 0
@@ -29,15 +52,36 @@ class Task
     identifier
     category
 
-    displayMargin()
+    wrapper
+    componentHolder
+    tasks
+
+    addComponent(component)
     {
+        this.tasks.push(component)
+    }
+
+    removeComponent(component)
+    {
+        this.tasks = this.tasks.filter(value => 
+            {
+                return value != component
+            })
+
+        checkedRemove(this.componentHolder, component.displayMargin())
+    }
+
+    displayMargin(taskConsumer = null)
+    {
+        if (this.wrapper) return this.wrapper
+
         // Horizontal bar with title, selection, and options
         var generic = Architect.div()
             .withClasses(`label-height task-generic grid g5`)
             .end()
         
         // Task display wrapper
-        var wrapper = Architect.div()
+        this.wrapper = Architect.div()
             .withClasses(`hoverable grid rui1 p5 g5`)
             .withChildren(generic)
             .end()
@@ -61,18 +105,33 @@ class Task
             descArea.rows = 2
             descArea.readOnly = `readonly`
 
+        this.tasks.forEach(task => this.componentHolder.appendChild(task.displayMargin()))
+
         // Task hide button
         var hide = new ImageButton('close_task', 'close_task_hovered')
+            .withAction(selected => 
+            {
+                if (taskConsumer != null) taskConsumer(this)
+            })
             .end()
 
         // Task information expand button
         var expand = new ImageButton('expand', 'expand_hovered')
             .withSelection('expand_selected', 'expand_selected_hovered')
             .withAction((selected) => 
-            {
-                if (wrapper.contains(descArea)) wrapper.removeChild(descArea)
-                else if (selected) wrapper.appendChild(descArea)
-            })
+                {
+                    if (selected)
+                    {
+                        this.wrapper.appendChild(descArea)
+                        if (0 < this.tasks.length) this.wrapper.appendChild(this.componentHolder)
+                    }
+
+                    else
+                    {
+                        checkedRemove(this.wrapper, this.componentHolder)
+                        checkedRemove(this.wrapper, descArea)
+                    }
+                })
             .end()
 
         generic.appendChild(completed)
@@ -80,20 +139,28 @@ class Task
         generic.appendChild(expand)
         generic.appendChild(hide)
 
-        return wrapper
+        return this.wrapper
     }
 
     exportJson()
     {
+        console.log(`Exporting task json 'ID=${this.identifier}'`)
+
+        tsExport(this.asJson())
+    }
+
+    asJson()
+    {
         var jsonData = {
             "identifier": this.identifier,
             "title": this.title,
-            "description": this.description
+            "description": this.description,
+            "components": []
         }
 
-        console.log(`Exporting task json 'ID=${this.identifier}'`)
+        this.tasks.forEach(task => jsonData.components.push(task.asJson()))
 
-        tsExport(jsonData)
+        return jsonData
     }
 }
 
@@ -131,4 +198,10 @@ class TaskTemplate
 
     title
     description
+
+    asTask()
+    {
+        var task = new Task(this.title.value, this.description.value)
+        return task
+    }
 }
