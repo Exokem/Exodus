@@ -1,4 +1,6 @@
 
+const CONTAINER = document.getElementById(`task-view`)
+
 // Data
 
 const TASK_CDATA = {
@@ -74,7 +76,8 @@ compGeneric.appendChild(add)
 
 // Assignment logic
 
-var assignButton = document.getElementById('action-ntask-assign')
+const assignButton = document.getElementById('action-ntask-assign')
+
 
 var taskSections = 0
 
@@ -86,7 +89,7 @@ assignButton.addEventListener('click', function(event)
 
     if (title != '') 
     {
-        var task = new Task(title, description)
+        var task = Task.next(title, description).withConsumer(deleteTask)
 
         while(0 < TASK_CDATA.components.length)
         {
@@ -98,8 +101,15 @@ assignButton.addEventListener('click', function(event)
 
         task.exportJson()
 
-        var CONTAINER = document.getElementById('task-view')
         CONTAINER.appendChild(task.displayMargin())
     }
 })
 
+function deleteTask(task)
+{
+    if (!confirm(`Confirm task deletion (this cannot be undone)`)) return
+
+    tsErase(task)
+
+    CONTAINER.removeChild(task.displayMargin())
+}

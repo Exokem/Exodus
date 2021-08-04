@@ -23,18 +23,23 @@ const ROOT_CATEGORY = new Category(`Root Category`, `Uncategorized tasks`)
 
 class Task 
 {
-    static importJson(json)
+    static importJson(json, consumer = null)
     {
-        var task = new Task(json.title, json.description)
+        var task = new Task(json.title, json.description, json.identifier).withConsumer(consumer)
 
-        json.components.forEach(component => task.addComponent(Task.importJson(component)))
+        json.components.forEach(component => task.addComponent(Task.importJson(component, task.removeComponent)))
 
         return task
     }
 
-    constructor(title, description, category = ROOT_CATEGORY)
+    static next(title, description, category = ROOT_CATEGORY)
     {
-        this.identifier = Task.NEXT_INDEX ++
+        return new Task(title, description, Task.NEXT_INDEX ++)
+    }
+
+    constructor(title, description, identifier, category = ROOT_CATEGORY)
+    {
+        this.identifier = identifier
         this.title = title
         this.description = description
         this.category = category
@@ -43,6 +48,27 @@ class Task
         this.componentHolder = Architect.div()
             .withClasses(`grid rui0 p5 g5`)
             .end()
+
+        Task.NEXT_INDEX = Task.NEXT_INDEX <= identifier ? identifier + 1 : Task.NEXT_INDEX
+    }
+
+    // constructor(title, description, category = ROOT_CATEGORY)
+    // {
+    //     this.identifier = Task.NEXT_INDEX ++
+    //     this.title = title
+    //     this.description = description
+    //     this.category = category
+    //     this.tasks = []
+
+    //     this.componentHolder = Architect.div()
+    //         .withClasses(`grid rui0 p5 g5`)
+    //         .end()
+    // }
+
+    withConsumer(consumer)
+    {
+        this.taskConsumer = consumer
+        return this
     }
 
     static NEXT_INDEX = 0
@@ -56,9 +82,11 @@ class Task
     componentHolder
     tasks
 
+    taskConsumer
+
     addComponent(component)
     {
-        this.tasks.push(component)
+        this.tasks.push(component.withConsumer(this.removeComponent))
     }
 
     removeComponent(component)
@@ -71,7 +99,7 @@ class Task
         checkedRemove(this.componentHolder, component.displayMargin())
     }
 
-    displayMargin(taskConsumer = null)
+    displayMargin()
     {
         if (this.wrapper) return this.wrapper
 
@@ -111,7 +139,7 @@ class Task
         var hide = new ImageButton('close_task', 'close_task_hovered')
             .withAction(selected => 
             {
-                if (taskConsumer != null) taskConsumer(this)
+                if (this.taskConsumer != null) this.taskConsumer(this)
             })
             .end()
 
@@ -161,6 +189,14 @@ class Task
         this.tasks.forEach(task => jsonData.components.push(task.asJson()))
 
         return jsonData
+    }
+
+    asSimpleJson()
+    {
+        return {
+            'identifier': this.identifier,
+            'title': this.title
+        }
     }
 }
 

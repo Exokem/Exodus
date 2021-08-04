@@ -13,7 +13,7 @@ const TASK_DATA = fetch(`/data/task`, GET_JSON)
             .then(function(response) { return response.json() })  
             .then(data => 
             {
-                var task = Task.importJson(data)
+                var task = Task.importJson(data, deleteTask)
                 document.getElementById('task-view').appendChild(task.displayMargin())
             })    
             .catch((err) => 
@@ -37,12 +37,14 @@ function tsExport(data)
 
 function tsErase(task)
 {
-    var data = { identifier: task.identifier, title: task.title }
-
     fetch(`transponder/erase`,
     {
         method: `POST`,
-        body: data,
+        body: JSON.stringify(task.asSimpleJson()),
         headers: { 'Content-type': 'application/json; charset=UTF-8'}
     })
+    .catch(err =>
+        {
+            console.log(`Emitted deletion request failed: ${err}`)
+        })
 }

@@ -35,8 +35,13 @@ exodus.get('', (req, res) =>
 // Receive POST requests from the transponder
 exodus.post(`/transponder`, (request, response) =>
 {
-    console.log(request.body)
     writeJson(request.body)
+})
+
+exodus.post(`/transponder/erase`, (request, response) =>
+{
+    console.log(`Received deletion request emission`)
+    eraseJson(request.body)
 })
 
 var index = { files: [] }
@@ -87,19 +92,19 @@ async function refreshIndices()
 
 const WJSON_OUT = `data/task/`
 
-async function transformTitle(title)
+function transformTitle(title)
 {
-    return title.replace(' ', '_')
+    return title.replace(/ /g, '_')
 }
 
 async function writeJson(json)
 {
     var path = `${WJSON_OUT}${transformTitle(json.title)}-${json.identifier}.vxtk`
     console.log(`Writing task data to '${path}'`)
-    
+
     fs.writeFile(path, JSON.stringify(json), (err) =>
         {
-            console.log(`Failed to write data to '${path}': ${err}`)
+            if (err != null) console.log(`Failed to write data to '${path}': ${err}`)
         })
 }
 
@@ -107,8 +112,14 @@ async function eraseJson(json)
 {
     var path = `${WJSON_OUT}${transformTitle(json.title)}-${json.identifier}.vxtk`
 
+    if (!fs.existsSync(path))
+    {
+        console.log(`Erasure target does not exist`)
+        return
+    }
+
     fs.unlink(path, err =>
         {
-            console.log(`Failed to erase data at '${path}': ${err}`)
+            if (err != null) console.log(`Failed to erase data at '${path}': ${err}`)
         })
 }
